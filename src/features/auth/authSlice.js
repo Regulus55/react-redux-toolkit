@@ -72,6 +72,7 @@ const authSlice = createSlice({
             state.error = null
         },
         setCredentials: (state, { payload }) => {
+            console.log('-------------------',payload)
             state.userInfo = payload
         },
     },
@@ -82,9 +83,10 @@ const authSlice = createSlice({
             state.error = null
         },
         [loginUser.fulfilled]: (state, { payload }) => {
+            console.log('77777777777777777',payload)
             state.loading = false
-            state.userInfo = payload
-            state.userToken = payload.userToken
+            state.userInfo = payload.user
+            state.userToken = payload.token
         },
         [loginUser.rejected]: (state, { payload }) => {
             state.loading = false

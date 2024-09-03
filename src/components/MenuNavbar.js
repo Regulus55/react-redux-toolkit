@@ -1,7 +1,23 @@
-import React from 'react';
-import {Container, Nav, Navbar, NavDropdown} from "react-bootstrap";
+import React, {useEffect} from 'react';
+import {Button, Container, Nav, Navbar} from "react-bootstrap";
+import {useDispatch, useSelector} from "react-redux";
+import {useGetDetailsQuery} from "../app/services/auth/authService";
+import {logout, setCredentials} from "../features/auth/authSlice";
 
 const MenuNavbar = () => {
+    const {userInfo} = useSelector(state => state.auth)
+    const dispatch = useDispatch();
+    const {data, isFetching} = useGetDetailsQuery("userDetails", {
+        pollInterval: 900000,
+    })
+    console.log('00000000000000000000',data)
+
+    useEffect(() => {
+        if (data) {
+            dispatch(setCredentials(data))
+        }
+    }, [data, dispatch])
+
     return (
         <Navbar collapseOnSelect expand="lg" className="bg-body-tertiary">
             <Container>
@@ -9,23 +25,25 @@ const MenuNavbar = () => {
                 <Navbar.Toggle aria-controls="responsive-navbar-nav"/>
                 <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav className="me-auto">
-                        {/*<Nav.Link href="#features">Features</Nav.Link>*/}
-                        {/*<Nav.Link href="#pricing">Pricing</Nav.Link>*/}
-                        {/*<NavDropdown title="Dropdown" id="collapsible-nav-dropdown">*/}
-                        {/*    <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>*/}
-                        {/*    <NavDropdown.Item href="#action/3.2">*/}
-                        {/*        Another action*/}
-                        {/*    </NavDropdown.Item>*/}
-                        {/*    <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>*/}
-                        {/*    <NavDropdown.Divider />*/}
-                        {/*    <NavDropdown.Item href="#action/3.4">*/}
-                        {/*        Separated link*/}
-                        {/*    </NavDropdown.Item>*/}
-                        {/*</NavDropdown>*/}
                     </Nav>
+                    {isFetching
+                        ? `Fetching your profile...`
+                        : userInfo !== null
+                            ? `Login as ${userInfo.email}`
+                            : "you're not logged in"
+                    }
                     <Nav>
-                        <Nav.Link href="/signup">Signup</Nav.Link>
-                        <Nav.Link href="/login"> Login </Nav.Link>
+                        {userInfo ? (
+                            <Button onClick={() => {
+                                dispatch(logout())
+                            }}>Logout</Button>
+                        ) : (
+                            <>
+                                <Nav.Link href="/signup">Signup</Nav.Link>
+                                <Nav.Link href="/login"> Login </Nav.Link>
+                            </>
+                        )
+                        }
                     </Nav>
                 </Navbar.Collapse>
             </Container>
