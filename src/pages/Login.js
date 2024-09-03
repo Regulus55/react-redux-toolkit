@@ -6,7 +6,7 @@ const Login = () => {
     const {register, handleSubmit, formState: {error}} = useForm();
 
 
-    const submitHandler = async (values) => {
+    const loginHandler = async (values) => {
         console.log('values', values)
         // await mutateAsync(values)
     }
@@ -24,7 +24,7 @@ const Login = () => {
                 <Col lg={3}/>
                 <Col lg={6}>
                     <h1>Login</h1>
-                    <Form className='mt-5' onSubmit={handleSubmit(submitHandler)}>
+                    <Form className='mt-5' onSubmit={handleSubmit(loginHandler)}>
                         <Form.Group className="mb-3" controlId="formBasicEmail">
                             <Form.Label>Email address</Form.Label>
                             <Form.Control
