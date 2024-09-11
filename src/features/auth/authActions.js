@@ -23,9 +23,10 @@ export const loginUser = createAsyncThunk(
     "/auth/login", async ({email, password}, {rejectWithValue}) => {
         try{
             const {data} = await axios.post(`${backendURL}/auth/login`, {email,password})
+
             localStorage.setItem("userToken", data.token)
             console.log('+++++++++++++++++++++++++++++++',data)
-            return data
+            return data.user
         }catch(e){
             console.log(e)
             if (e.response && e.response.data.message) {

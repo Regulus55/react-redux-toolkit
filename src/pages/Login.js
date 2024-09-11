@@ -12,13 +12,15 @@ const Login = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate()
 
+
     const loginHandler = (values) => {
         console.log('values', values)
         dispatch(loginUser(values))
         // await mutateAsync(values)
     }
     useEffect(() => {
-        if (userInfo) navigate('/profile')
+        console.log('[][][][]',userInfo)
+        if (userInfo) {navigate('/profile')}
     }, [navigate, userInfo])
 
     return (

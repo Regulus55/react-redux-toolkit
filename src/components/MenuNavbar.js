@@ -7,16 +7,21 @@ import {logout, setCredentials} from "../features/auth/authSlice";
 const MenuNavbar = () => {
     const {userInfo} = useSelector(state => state.auth)
     const dispatch = useDispatch();
-    const {data, isFetching} = useGetDetailsQuery("userDetails", {
-        pollInterval: 900000,
-    })
-    console.log('00000000000000000000',data)
+    // const {data, isFetching} = useGetDetailsQuery("userDetails", {
+    //     pollInterval: 900000,
+    // })
+    // console.log('00000000000000000000', data)
 
     useEffect(() => {
-        if (data) {
-            dispatch(setCredentials(data))
-        }
-    }, [data, dispatch])
+        // if (data) {
+        //     dispatch(setCredentials(data))
+        // }
+    }, [userInfo, dispatch])
+
+    useEffect(() => {
+
+    }, [userInfo])
+    // console.log('22222222', userInfo?.body?.email)
 
     return (
         <Navbar collapseOnSelect expand="lg" className="bg-body-tertiary">
@@ -26,17 +31,22 @@ const MenuNavbar = () => {
                 <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav className="me-auto">
                     </Nav>
-                    {isFetching
-                        ? `Fetching your profile...`
-                        : userInfo !== null
-                            ? `Login as ${userInfo.email}`
-                            : "you're not logged in"
-                    }
+                    {userInfo?.email}
+                    {/*{isFetching*/}
+                    {/*    ? `Fetching your profile...`*/}
+                    {/*    : userInfo !== null*/}
+                    {/*        ? `Login as ${userInfo?.body?.email !== undefined ? userInfo?.body?.email : userInfo?.email}`*/}
+                    {/*        : "you're not logged in"*/}
+                    {/*}*/}
                     <Nav>
                         {userInfo ? (
-                            <Button onClick={() => {
-                                dispatch(logout())
-                            }}>Logout</Button>
+                            <Button
+                                onClick={() => {
+                                    dispatch(logout())
+                                }}
+                            >
+                                Logout
+                            </Button>
                         ) : (
                             <>
                                 <Nav.Link href="/signup">Signup</Nav.Link>

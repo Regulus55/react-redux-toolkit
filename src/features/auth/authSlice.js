@@ -68,7 +68,7 @@ const authSlice = createSlice({
             localStorage.removeItem('userToken') // delete token from storage
             state.loading = false
             state.userInfo = null
-            state.userToken = null
+            // state.userToken = null
             state.error = null
         },
         setCredentials: (state, { payload }) => {
@@ -83,10 +83,10 @@ const authSlice = createSlice({
             state.error = null
         },
         [loginUser.fulfilled]: (state, { payload }) => {
-            console.log('77777777777777777',payload)
+            console.log('77777777777777777',payload.user)
             state.loading = false
-            state.userInfo = payload.user
-            state.userToken = payload.token
+            state.userInfo = payload
+            // state.userToken = payload
         },
         [loginUser.rejected]: (state, { payload }) => {
             state.loading = false
